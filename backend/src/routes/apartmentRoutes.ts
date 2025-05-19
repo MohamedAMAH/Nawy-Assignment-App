@@ -12,4 +12,4 @@ router.get('/:id', getApartmentById);
 // POST create new apartment
 router.post('/', createApartment);
 
-export default router; 
+export default router;

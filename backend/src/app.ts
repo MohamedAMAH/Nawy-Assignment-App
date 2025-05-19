@@ -23,4 +23,17 @@ app.get('/', (_req, res) => {
   res.send('Nawy Apartments API is running');
 });
 
+// Connect to MongoDB
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI || 'mongodb://mongodb:27017/nawy-apartments');
+    console.log('MongoDB connected successfully');
+  } catch (error) {
+    console.error('MongoDB connection error:', error);
+    process.exit(1);
+  }
+};
+
+connectDB();
+
 export default app;
