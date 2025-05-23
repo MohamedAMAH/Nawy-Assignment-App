@@ -10,7 +10,7 @@ interface IApartment extends Document {
   bathrooms: number;
   area: number;
   description: string;
-  images: string[];
+  project: string;
   available: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -56,6 +56,11 @@ const ApartmentSchema = new mongoose.Schema(
     description: { 
       type: String,
       required: true 
+    },
+    project: {
+      type: String,
+      required: true,
+      trim: true
     },
     images: [{ 
       type: String

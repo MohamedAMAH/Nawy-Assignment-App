@@ -1,0 +1,224 @@
+/* Apartment Details Page Styles */
+.backButton {
+  background: none;
+  border: none;
+  color: #000;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.2s;
+  display: inline-block;
+}
+
+.backButton:hover {
+  transform: translateX(-4px);
+}
+
+.apartmentDetails {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+  padding: 40px;
+}
+
+.headerSection {
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.apartmentTitle {
+  font-size: 2.5rem;
+  margin-bottom: 8px;
+  display: block;
+  width: 100%;
+}
+
+.apartmentAddress {
+  color: #757575;
+  font-size: 1.1rem;
+  margin-bottom: 16px;
+}
+
+.apartmentProject {
+  color: #757575;
+  font-size: 1.1rem;
+  margin-bottom: 16px;
+  font-style: italic;
+}
+
+.apartmentPrice {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #000;
+  display: block;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  padding: 32px 0;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.infoLabel {
+  font-size: 0.9rem;
+  color: #757575;
+  margin-bottom: 8px;
+}
+
+.infoValue {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.available {
+  color: #2e7d32;
+}
+
+.unavailable {
+  color: #c62828;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.descriptionText {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #424242;
+  margin-bottom: 40px;
+}
+
+.ctaSection {
+  text-align: center;
+}
+
+.errorContainer {
+  text-align: center;
+  padding: 60px 0;
+}
+
+/* Shimmer Effect */
+.shimmer {
+  position: relative;
+  background-color: #f6f7f8;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -150%;
+  width: 150%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmerLeftToRight 1.5s infinite;
+}
+
+.shimmerLine {
+  height: 16px;
+  margin-bottom: 16px;
+  background: #eaeaea;
+  border-radius: 4px;
+}
+
+@keyframes shimmerLeftToRight {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Apartment Details Shimmer */
+.backButtonShimmer {
+  height: 24px;
+  width: 120px;
+  margin-bottom: 24px;
+  border-radius: 4px;
+}
+
+.detailsShimmerContainer {
+  padding: 40px;
+}
+
+.titleShimmer {
+  height: 40px;
+  width: 70%;
+  margin-bottom: 16px;
+}
+
+.addressShimmer {
+  height: 20px;
+  width: 50%;
+  margin-bottom: 16px;
+}
+
+.priceShimmer {
+  height: 20px;
+  width: 40%;
+  margin-bottom: 32px;
+}
+
+.infoGridShimmer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  padding: 32px 0;
+}
+
+.infoItemShimmer {
+  height: 60px;
+}
+
+.descriptionShimmer {
+  height: 16px;
+  margin-bottom: 12px;
+}
+
+.ctaShimmer {
+  height: 48px;
+  width: 200px;
+  margin: 0 auto;
+}
+
+.ctaContainerShimmer {
+  text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .apartmentDetails {
+    padding: 24px;
+  }
+  
+  .infoGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .apartmentTitle {
+    font-size: 2rem;
+  }
+} 

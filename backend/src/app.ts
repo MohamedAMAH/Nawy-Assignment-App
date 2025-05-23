@@ -26,7 +26,8 @@ app.get('/', (_req, res) => {
 // Connect to MongoDB
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI || 'mongodb://mongodb:27017/nawy-apartments');
+    // await mongoose.connect(process.env.MONGO_URI!);
+    await mongoose.connect('mongodb://localhost:27017/nawy-apartments');
     console.log('MongoDB connected successfully');
   } catch (error) {
     console.error('MongoDB connection error:', error);
