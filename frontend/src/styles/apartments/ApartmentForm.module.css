@@ -157,4 +157,20 @@
   .fullWidth {
     grid-column: span 1;
   }
+}
+
+/* Add the spacer style to push buttons apart */
+.spacer {
+  flex-grow: 1;
+}
+
+/* Add error message styling */
+.errorMessage {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+  border-left: 4px solid #c62828;
 } 

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { getApartments, Apartment } from '../services/api';
 import ApartmentForm from '../components/apartments/ApartmentForm';
-import styles from '../styles/Home.module.css';
+import styles from '../styles/Index.module.css';
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -19,7 +19,7 @@ export default function Home() {
   useEffect(() => {
     const fetchApartments = async () => {
       try {
-        await sleep(4000);
+        // await sleep(4000);
         const data = await getApartments();
         setApartments(data);
         setFilteredApartments(data);
@@ -75,7 +75,7 @@ export default function Home() {
           <input 
             type="text" 
             className={styles.formControl} 
-            placeholder="Search by name, apartment number, or project..." 
+            placeholder="Search by name, unit number, or project..." 
             value={searchTerm}
             onChange={handleSearchChange}
           />

@@ -1,11 +1,17 @@
 import { useState } from 'react';
 import styles from '../../styles/apartments/ApartmentForm.module.css';
+import { createApartment, CreateApartmentData } from '../../services/api';
+
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 interface ApartmentFormProps {
   onClose: () => void;
+  onSuccess?: () => void;
 }
 
-const ApartmentForm = ({ onClose }: ApartmentFormProps) => {
+const ApartmentForm = ({ onClose, onSuccess }: ApartmentFormProps) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     apartmentNumber: '',
@@ -18,25 +24,40 @@ const ApartmentForm = ({ onClose }: ApartmentFormProps) => {
     project: '',
     available: true
   });
-
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
-    
-    // Handle checkbox separately
     if (type === 'checkbox') {
       const checked = (e.target as HTMLInputElement).checked;
       setFormData(prev => ({ ...prev, [name]: checked }));
       return;
     }
-    
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Form submission logic will be added later
-    console.log(formData);
-    onClose();
+    setIsSubmitting(true);
+    setError(null);  
+    try {
+      const apartmentData: CreateApartmentData = {
+        ...formData,
+        price: Number(formData.price),
+        bedrooms: Number(formData.bedrooms),
+        bathrooms: Number(formData.bathrooms),
+        area: Number(formData.area),
+      };
+      // await sleep(4000);
+      await createApartment(apartmentData);
+      if (onSuccess) {
+        onSuccess();
+      }
+      onClose();
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Failed to create apartment');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -48,6 +69,8 @@ const ApartmentForm = ({ onClose }: ApartmentFormProps) => {
             &times;
           </button>
         </div>
+        
+        {error && <div className={styles.errorMessage}>{error}</div>}
         
         <form onSubmit={handleSubmit}>
           <div className={styles.formGrid}>
@@ -175,7 +198,7 @@ const ApartmentForm = ({ onClose }: ApartmentFormProps) => {
               />
             </div>
             
-            <div className={`${styles.formGroup} ${styles.fullWidth}`}>
+            <div className={`${styles.formGroup} ${styles.fullWidth}`} style={{ marginBottom: 0 }}>
               <label htmlFor="description">Description*</label>
               <textarea
                 id="description"
@@ -193,8 +216,13 @@ const ApartmentForm = ({ onClose }: ApartmentFormProps) => {
             <button type="button" className={styles.cancelButton} onClick={onClose}>
               Cancel
             </button>
-            <button type="submit" className={styles.submitButton}>
-              Create Apartment
+            <div className={styles.spacer}></div>
+            <button 
+              type="submit" 
+              className={styles.submitButton}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Creating...' : 'Create Apartment'}
             </button>
           </div>
         </form>

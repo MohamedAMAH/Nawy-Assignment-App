@@ -4,34 +4,34 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import apartmentRoutes from './routes/apartmentRoutes';
 
-// Load environment variables
 dotenv.config();
 
-// Initialize Express instance
 const app: Express = express();
 
-// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-
-// Routes
 app.use('/api/apartments', apartmentRoutes);
 
-// Base route
 app.get('/', (_req, res) => {
   res.send('Nawy Apartments API is running');
 });
 
-// Connect to MongoDB
-const connectDB = async () => {
+const MAX_RETRIES = 5;
+const RETRY_INTERVAL = 5000;
+
+const connectDB = async (retryCount = 0): Promise<void> => {
   try {
-    // await mongoose.connect(process.env.MONGO_URI!);
-    await mongoose.connect('mongodb://localhost:27017/nawy-apartments');
+    const mongoURI = process.env.NODE_ENV === 'production' ? process.env.MONGO_URI_PROD : process.env.MONGO_URI_DEV;
+    await mongoose.connect(mongoURI!);
     console.log('MongoDB connected successfully');
   } catch (error) {
-    console.error('MongoDB connection error:', error);
-    process.exit(1);
+    if (retryCount < MAX_RETRIES) {
+      setTimeout(() => connectDB(retryCount + 1), RETRY_INTERVAL);
+    } else {
+      console.error(`Failed to connect to MongoDB after ${MAX_RETRIES} attempts. Exiting process.`);
+      process.exit(1);
+    }
   }
 };
 

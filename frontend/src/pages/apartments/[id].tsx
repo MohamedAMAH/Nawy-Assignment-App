@@ -16,7 +16,7 @@ export default function ApartmentDetails() {
     if (!id) return;
     const fetchApartmentDetails = async () => {
       try {
-        await sleep(4000);
+        // await sleep(4000);
         const data = await getApartmentById(id as string);
         setApartment(data);
         setLoading(false);
