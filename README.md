@@ -69,6 +69,7 @@ You can then:
 - Browse apartment listings on the homepage
 - View detailed apartment information
 - Filter and search through available properties
+- Create a new apartment
 
 ## Stopping the Application
 
