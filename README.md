@@ -4,8 +4,7 @@ Full-stack application for browsing apartment listings built with Next.js, Expre
 
 ## Prerequisites
 
-- Docker
-- Docker Compose
+- Docker (with Docker Compose)
 
 ## Setup Instructions
 
