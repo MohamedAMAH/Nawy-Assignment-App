@@ -100,16 +100,57 @@
 .checkboxContainer {
   display: flex;
   align-items: center;
+  gap: 12px;
 }
 
 .checkboxContainer input[type="checkbox"] {
-  width: auto;
-  margin-right: 10px;
+  display: none;
+}
+
+.toggleSwitch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+}
+
+.toggleSlider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ddd;
+  transition: 0.3s;
+  border-radius: 24px;
+}
+
+.toggleSlider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+input[type="checkbox"]:checked + .toggleSlider {
+  background-color: #000;
+}
+
+input[type="checkbox"]:checked + .toggleSlider:before {
+  transform: translateX(24px);
 }
 
 .checkboxLabel {
-  margin-bottom: 0;
+  margin: 0;
   font-weight: normal;
+  cursor: pointer;
+  user-select: none;
 }
 
 .formActions {
@@ -150,27 +191,119 @@
 }
 
 @media (max-width: 768px) {
+  .formContainer {
+    max-width: 600px;
+  }
+
+  .formHeader h2 {
+    font-size: 1.35rem;
+  }
+
+  .formGroup label {
+    font-size: 0.85rem;
+  }
+
+  .formGroup input,
+  .formGroup textarea,
+  .formGroup select {
+    font-size: 0.95rem;
+    padding: 8px 10px;
+  }
+
+  .checkboxLabel {
+    font-size: 0.95rem;
+  }
+
+  .toggleSwitch {
+    width: 44px;
+    height: 22px;
+  }
+
+  .toggleSlider:before {
+    height: 16px;
+    width: 16px;
+  }
+
+  input[type="checkbox"]:checked + .toggleSlider:before {
+    transform: translateX(22px);
+  }
+
+  .formActions button {
+    font-size: 0.95rem;
+    padding: 8px 16px;
+  }
+
+  .formActions {
+    padding: 16px 24px;
+  }
+}
+
+@media (max-width: 576px) {
+  .formContainer {
+    max-width: 100%;
+  }
+
+  .formHeader h2 {
+    font-size: 1.25rem;
+  }
+
+  .formGroup label {
+    font-size: 0.8rem;
+    margin-bottom: 6px;
+  }
+
+  .formGroup input,
+  .formGroup textarea,
+  .formGroup select {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  .checkboxLabel {
+    font-size: 0.9rem;
+  }
+
+  .toggleSwitch {
+    width: 40px;
+    height: 20px;
+  }
+
+  .toggleSlider:before {
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+  }
+
+  input[type="checkbox"]:checked + .toggleSlider:before {
+    transform: translateX(20px);
+  }
+
+  .formActions button {
+    font-size: 0.9rem;
+    padding: 8px 14px;
+  }
+
   .formGrid {
     grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 20px;
   }
-  
+
   .fullWidth {
     grid-column: span 1;
   }
-}
 
-/* Add the spacer style to push buttons apart */
-.spacer {
-  flex-grow: 1;
-}
+  .formHeader {
+    padding: 14px 20px;
+  }
 
-/* Add error message styling */
-.errorMessage {
-  background-color: #ffebee;
-  color: #c62828;
-  padding: 12px;
-  border-radius: 4px;
-  margin-bottom: 16px;
-  font-size: 0.9rem;
-  border-left: 4px solid #c62828;
+  .formActions {
+    padding: 14px 20px;
+    gap: 8px;
+  }
+
+  .formGroup {
+    margin-bottom: 16px;
+  }
 } 

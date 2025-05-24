@@ -40,7 +40,7 @@ const ApartmentForm = ({ onClose, onSuccess }: ApartmentFormProps) => {
     setIsSubmitting(true);
     setError(null);
     try {
-      throw new Error('Failed to create apartment. Please try again.');
+      // throw new Error('Failed to create apartment. Please try again.');
       const apartmentData: CreateApartmentData = {
         ...formData,
         price: Number(formData.price),

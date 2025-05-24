@@ -1,0 +1,50 @@
+services:
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=nawy-apartments
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "9876:9876"
+    environment:
+      - NODE_ENV=production
+      - PORT=9876
+      - MONGO_URI_PROD=mongodb://mongodb:27017/nawy-apartments
+      - CORS_ORIGIN=http://localhost:3000
+    depends_on:
+      - db-seed
+    restart: unless-stopped
+
+  db-seed:
+    build:
+      context: ./backend
+    environment:
+      - NODE_ENV=production
+      - MONGO_URI_PROD=mongodb://mongodb:27017/nawy-apartments
+    depends_on:
+      - mongodb
+    command: sh -c "node seed-data.js"
+    restart: "no"
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://localhost:9876/api
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  mongodb_data:
