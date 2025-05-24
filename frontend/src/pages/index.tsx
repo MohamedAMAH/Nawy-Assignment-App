@@ -18,20 +18,21 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');
   const router = useRouter();
 
+  const fetchApartments = async () => {
+    try {
+      // throw new Error('Internal server error. Please try to refresh.');
+      // await sleep(4000);
+      const data = await getApartments();
+      setApartments(data);
+      setFilteredApartments(data);
+      setLoading(false);
+    } catch (err) {
+      setError('Internal server error. Please try to refresh.');
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchApartments = async () => {
-      try {
-        // throw new Error('Internal server error. Please try to refresh.');
-        // await sleep(4000);
-        const data = await getApartments();
-        setApartments(data);
-        setFilteredApartments(data);
-        setLoading(false);
-      } catch (err) {
-        setError('Internal server error. Please try to refresh.');
-        setLoading(false);
-      }
-    };
     fetchApartments();
   }, []);
 
@@ -54,6 +55,11 @@ export default function Home() {
   };
 
   const handleCloseForm = () => {
+    setShowForm(false);
+  };
+
+  const handleApartmentCreated = () => {
+    fetchApartments();
     setShowForm(false);
   };
 
@@ -87,7 +93,12 @@ export default function Home() {
           </div>
         </div>
 
-        {showForm && <ApartmentForm onClose={handleCloseForm} />}
+        {showForm && (
+          <ApartmentForm 
+            onClose={handleCloseForm} 
+            onSuccess={handleApartmentCreated}
+          />
+        )}
 
         {error ? (
           <p className="text-center text-danger mt-3">{error}</p>
