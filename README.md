@@ -9,15 +9,23 @@ Full-stack application for browsing apartment listings built with Next.js, Expre
 
 ## Running the Application
 
+Build and start all services (first time or after code changes):
 ```bash
-# Build and start all services (first time or after code changes)
 docker-compose up --build
+```
 
-# Start services using existing images (subsequent runs)
+Start services using existing images (subsequent runs):
+```bash
 docker-compose up
+```
 
-# Or run in detached mode
+Run in detached mode (first time or after code changes):
+```bash
 docker-compose up --build -d
+```
+
+Run in detached mode (subsequent runs):
+```bash
 docker-compose up -d
 ```
 
@@ -34,10 +42,12 @@ docker-compose up -d
 
 ## Stopping the Application
 
+Stop all services:
 ```bash
-# Stop all services
 docker-compose down
+```
 
-# Remove volumes (deletes database data)
+Remove volumes (deletes database data):
+```bash
 docker-compose down -v
 ```
