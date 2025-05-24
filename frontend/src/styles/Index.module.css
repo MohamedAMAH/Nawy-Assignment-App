@@ -176,4 +176,60 @@
   100% {
     transform: translateX(200%);
   }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .apartmentPrice {
+    font-size: 1.25rem;
+  }
+
+  .apartmentNumber {
+    font-size: 0.85rem;
+  }
+
+  .apartmentProject {
+    font-size: 0.95rem;
+  }
+
+  .formControl {
+    height: 44px;
+    font-size: 0.95rem;
+  }
+
+  .formControl::placeholder {
+    font-size: 0.9rem;
+  }
+
+  .inputGroupText {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .apartmentPrice {
+    font-size: 1.2rem;
+  }
+
+  .apartmentNumber {
+    font-size: 0.8rem;
+  }
+
+  .apartmentProject {
+    font-size: 0.9rem;
+  }
+
+  .formControl {
+    height: 40px;
+    font-size: 0.9rem;
+  }
+
+  .formControl::placeholder {
+    font-size: 0.85rem;
+  }
+
+  .inputGroupText {
+    font-size: 0.85rem;
+    padding-left: 12px;
+  }
 } 

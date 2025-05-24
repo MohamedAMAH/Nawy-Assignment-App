@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import { getApartments, Apartment } from '../services/api';
 import ApartmentForm from '../components/apartments/ApartmentForm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -20,6 +21,7 @@ export default function Home() {
   useEffect(() => {
     const fetchApartments = async () => {
       try {
+        // throw new Error('Internal server error. Please try to refresh.');
         // await sleep(4000);
         const data = await getApartments();
         setApartments(data);
@@ -60,78 +62,83 @@ export default function Home() {
   };
 
   return (
-    <div className="container py-5">
-      <div className="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mb-3">
-        <h1 className="fw-bold mb-0">Available Apartments</h1>
-        <button className="btn btn-dark" onClick={handleOpenForm}>Create Apartment</button>
-      </div>
-
-      <div className={styles.searchContainer + " mb-4"}>
-        <div className={styles.inputGroup}>
-          <span className={styles.inputGroupText}>
-            <FontAwesomeIcon icon={faSearch} />
-          </span>
-          <input 
-            type="text" 
-            className={styles.formControl} 
-            placeholder="Search by name, unit number, or project..." 
-            value={searchTerm}
-            onChange={handleSearchChange}
-          />
+    <>
+      <Head>
+        <title>Nawy Apartments</title>
+      </Head>
+      <div className="container py-5">
+        <div className="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mb-3">
+          <h1 className="fw-bold mb-0">Available Apartments</h1>
+          <button className="btn btn-dark" onClick={handleOpenForm}>Create Apartment</button>
         </div>
-      </div>
 
-      {showForm && <ApartmentForm onClose={handleCloseForm} />}
+        <div className={styles.searchContainer + " mb-4"}>
+          <div className={styles.inputGroup}>
+            <span className={styles.inputGroupText}>
+              <FontAwesomeIcon icon={faSearch} />
+            </span>
+            <input 
+              type="text" 
+              className={styles.formControl} 
+              placeholder="Search by name, unit number, or project..." 
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
+          </div>
+        </div>
 
-      {error ? (
-        <div className="alert alert-danger text-center">{error}</div>
-      ) : loading ? (
-        <div className="row">
-          {Array.from({ length: 6 }).map((_, index) => (
-            <div key={index} className="col-12 col-sm-6 col-lg-4 mb-4">
-              <div className={styles.apartmentCard + " border-0 h-100 " + styles.shimmer}>
-                <div className="card-body p-4">
-                  <div className={styles.shimmerUnitNumber}></div>
-                  <div className={styles.shimmerTitle}></div>
-                  <div className={styles.shimmerProject}></div>
-                  <div className={styles.shimmerPrice}></div>
+        {showForm && <ApartmentForm onClose={handleCloseForm} />}
+
+        {error ? (
+          <p className="text-center text-danger mt-3">{error}</p>
+        ) : loading ? (
+          <div className="row">
+            {Array.from({ length: 6 }).map((_, index) => (
+              <div key={index} className="col-12 col-sm-6 col-lg-4 mb-4">
+                <div className={styles.apartmentCard + " border-0 h-100 " + styles.shimmer}>
+                  <div className="card-body p-4">
+                    <div className={styles.shimmerUnitNumber}></div>
+                    <div className={styles.shimmerTitle}></div>
+                    <div className={styles.shimmerProject}></div>
+                    <div className={styles.shimmerPrice}></div>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      ) : filteredApartments.length === 0 ? (
-        <div className="alert alert-info text-center">
-          {searchTerm ? 'No apartments match your search criteria.' : 'There are no apartments for sale right now.'}
-        </div>
-      ) : (
-        <div className="row">
-          {filteredApartments.map((apartment) => (
-            <div key={apartment._id} className="col-12 col-sm-6 col-lg-4 mb-4">
-              <div 
-                className={styles.apartmentCard + " border-0 h-100"} 
-                onClick={() => router.push(`/apartments/${apartment._id}`)}
-              >
-                <div className="card-body p-4 position-relative">
-                  <div className={styles.apartmentIcon}>
-                    <FontAwesomeIcon icon={faBuilding} size="lg" />
-                  </div>
-                  <div className={styles.apartmentNumber + " mb-2"}>
-                    Unit {apartment.apartmentNumber}
-                  </div>
-                  <h5 className="card-title mb-3 fw-bold">{apartment.name}</h5>
-                  {apartment.project && (
-                    <div className={styles.apartmentProject + " mb-3"}>
-                      {apartment.project}
+            ))}
+          </div>
+        ) : filteredApartments.length === 0 ? (
+          <p className="text-center text-muted mt-3">
+            {searchTerm ? 'No apartments match your search criteria.' : 'There are no apartments for sale right now.'}
+          </p>
+        ) : (
+          <div className="row">
+            {filteredApartments.map((apartment) => (
+              <div key={apartment._id} className="col-12 col-sm-6 col-lg-4 mb-4">
+                <div 
+                  className={styles.apartmentCard + " border-0 h-100"} 
+                  onClick={() => router.push(`/apartments/${apartment._id}`)}
+                >
+                  <div className="card-body p-4 position-relative">
+                    <div className={styles.apartmentIcon}>
+                      <FontAwesomeIcon icon={faBuilding} size="lg" />
                     </div>
-                  )}
-                  <div className={styles.apartmentPrice + " mt-auto"}>${apartment.price.toLocaleString()}</div>
+                    <div className={styles.apartmentNumber + " mb-2"}>
+                      Unit {apartment.apartmentNumber}
+                    </div>
+                    <h5 className="card-title mb-3 fw-bold">{apartment.name}</h5>
+                    {apartment.project && (
+                      <div className={styles.apartmentProject + " mb-3"}>
+                        {apartment.project}
+                      </div>
+                    )}
+                    <div className={styles.apartmentPrice + " mt-auto"}>${apartment.price.toLocaleString()}</div>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </>
   );
 }

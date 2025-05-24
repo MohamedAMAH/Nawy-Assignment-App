@@ -38,8 +38,9 @@ const ApartmentForm = ({ onClose, onSuccess }: ApartmentFormProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setError(null);  
+    setError(null);
     try {
+      throw new Error('Failed to create apartment. Please try again.');
       const apartmentData: CreateApartmentData = {
         ...formData,
         price: Number(formData.price),
@@ -49,12 +50,10 @@ const ApartmentForm = ({ onClose, onSuccess }: ApartmentFormProps) => {
       };
       // await sleep(4000);
       await createApartment(apartmentData);
-      if (onSuccess) {
-        onSuccess();
-      }
+      onSuccess?.();
       onClose();
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to create apartment');
+      setError('Failed to create apartment. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -69,8 +68,6 @@ const ApartmentForm = ({ onClose, onSuccess }: ApartmentFormProps) => {
             &times;
           </button>
         </div>
-        
-        {error && <div className={styles.errorMessage}>{error}</div>}
         
         <form onSubmit={handleSubmit}>
           <div className={styles.formGrid}>
@@ -172,13 +169,16 @@ const ApartmentForm = ({ onClose, onSuccess }: ApartmentFormProps) => {
             <div className={styles.formGroup}>
               <label htmlFor="available">Availability</label>
               <div className={styles.checkboxContainer}>
-                <input
-                  type="checkbox"
-                  id="available"
-                  name="available"
-                  checked={formData.available}
-                  onChange={handleChange}
-                />
+                <label className={styles.toggleSwitch}>
+                  <input
+                    type="checkbox"
+                    id="available"
+                    name="available"
+                    checked={formData.available}
+                    onChange={handleChange}
+                  />
+                  <span className={styles.toggleSlider}></span>
+                </label>
                 <label htmlFor="available" className={styles.checkboxLabel}>
                   Available for sale
                 </label>
@@ -210,16 +210,20 @@ const ApartmentForm = ({ onClose, onSuccess }: ApartmentFormProps) => {
                 placeholder="Detailed description of the apartment"
               />
             </div>
+            {error && (
+              <div className={`${styles.formGroup} ${styles.fullWidth}`}>
+                <p className="text-danger text-center mt-0 mb-0">{error}</p>
+              </div>
+            )}
           </div>
           
           <div className={styles.formActions}>
             <button type="button" className={styles.cancelButton} onClick={onClose}>
               Cancel
             </button>
-            <div className={styles.spacer}></div>
             <button 
-              type="submit" 
-              className={styles.submitButton}
+              type="submit"
+              className={`${styles.submitButton} ms-auto`}
               disabled={isSubmitting}
             >
               {isSubmitting ? 'Creating...' : 'Create Apartment'}
