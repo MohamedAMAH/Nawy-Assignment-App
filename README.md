@@ -7,26 +7,43 @@ Full-stack application for browsing apartment listings built with Next.js, Expre
 - Docker
 - Docker Compose
 
-## Running the Application
+## Setup Instructions
 
-Build and start all services (first time or after code changes):
+1. Clone the repository:
+```bash
+git clone https://github.com/MohamedAMAH/Nawy-Assignment-App.git
+```
+
+2. Navigate to the project directory:
+```bash
+cd Nawy-Assignment-App
+```
+
+3. Build and start all services (first time or after code changes):
 ```bash
 docker-compose up --build
 ```
 
-Start services using existing images (subsequent runs):
+4. For subsequent runs, start services using existing images:
 ```bash
 docker-compose up
 ```
 
-Run in detached mode (first time or after code changes):
+5. Alternatively, run in detached mode:
 ```bash
 docker-compose up --build -d
 ```
 
-Run in detached mode (subsequent runs):
+6. Or for subsequent runs in detached mode:
 ```bash
 docker-compose up -d
+```
+
+7. Wait for all services to start (you should see logs from all containers)
+
+8. Open your browser and navigate to:
+```
+http://localhost:3000
 ```
 
 ### When to use --build flag:
@@ -39,6 +56,19 @@ docker-compose up -d
 - **MongoDB**: Database running on port 27017
 - **Backend**: Express API running on http://localhost:9876/api
 - **Frontend**: Next.js application running on http://localhost:3000
+
+## Usage
+
+The application will automatically:
+- Set up the MongoDB database
+- Seed the database with 5 sample apartments
+- Start the backend API server
+- Start the frontend Next.js application
+
+You can then:
+- Browse apartment listings on the homepage
+- View detailed apartment information
+- Filter and search through available properties
 
 ## Stopping the Application
 
